@@ -48,7 +48,12 @@ adminRoutes.get('/ranking', authenticate, async (req, res) => {
 
     const rankedProjects = [];
 
-    // Pre-calculate top demand per ward to detect clashes
+    // ==========================================
+    // 🧠 CORE FEATURE: CLASH DETECTION
+    // Pre-calculate the highest citizen demand per ward.
+    // If a government proposal ignores this massive demand,
+    // we flag it dynamically in the UI.
+    // ==========================================
     const wardDemand: any = {};
     submissions.forEach(sub => {
       if (sub.wardNumber === undefined || sub.category === undefined) return;
@@ -67,9 +72,13 @@ adminRoutes.get('/ranking', authenticate, async (req, res) => {
       );
       const demandCount = relatedSubmissions.length;
       
+      // 1. Calculate Citizen Demand Score (max 10)
+      // Takes into account both volume of complaints AND the AI-assigned urgency score
       const avgUrgency = relatedSubmissions.reduce((acc, sub) => acc + (sub.aiUrgencyScore || 0), 0) / (demandCount || 1);
       const citizenDemandScore = Math.min((demandCount * avgUrgency) / 10, 10);
 
+      // 2. Calculate Hard Data Need Score (max 10)
+      // Analyzes historical dataset/snapshot metrics to see if the ward objectively needs this
       let dataNeedScore = 5;
       if (project.category === 'Education') {
         dataNeedScore += (ward.snapshotData.enrollmentTrend > 5) ? 2 : 0;
@@ -81,8 +90,12 @@ adminRoutes.get('/ranking', authenticate, async (req, res) => {
       }
       dataNeedScore = Math.min(dataNeedScore, 10);
 
+      // 3. Composite Priority Score
+      // Weights Citizen Demand heavier (60%) than Top-Down Data (40%)
       const compositeScore = (citizenDemandScore * 0.6) + (dataNeedScore * 0.4);
 
+      // 4. Generate AI Justification via Groq (Llama-3)
+      // Only invoke the LLM if the project is actually a high priority
       let justification = project.description;
       if (demandCount > 5 || compositeScore > 6) {
          justification = await generateRankingJustification(project, demandCount, ward.snapshotData);
@@ -134,6 +147,11 @@ adminRoutes.get('/ranking', authenticate, async (req, res) => {
 
 adminRoutes.get('/digest', authenticate, async (req, res) => {
   try {
+    // ==========================================
+    // 📊 AI EXECUTIVE DIGEST
+    // Compare last 7 days vs previous 30 days to extract anomalies
+    // and generate an automated briefing for the administrator.
+    // ==========================================
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
@@ -162,6 +180,11 @@ adminRoutes.get('/digest', authenticate, async (req, res) => {
 
 adminRoutes.post('/action-plan', authenticate, async (req, res) => {
   try {
+    // ==========================================
+    // 📝 AI ACTION PLAN GENERATOR
+    // Generates a 5-step, actionable project execution timeline
+    // and budget distribution directly via Groq (Llama 3).
+    // ==========================================
     const { projectName, category, justification } = req.body;
     const plan = await generateActionPlan(projectName, category, justification);
     res.json(plan);

@@ -8,10 +8,16 @@ submissionRoutes.post('/', async (req, res) => {
   try {
     const { citizenId, category, text, language, wardNumber, geolocation, photoUrl } = req.body;
 
-    // 1. Analyze with AI
+    // ==========================================
+    // 🌐 AI NLP PIPELINE (Powered by Llama-3)
+    // 1. Language Agnostic: Accepts Hindi, Tamil, English, etc.
+    // 2. Translation & Grammar Correction: Standardizes to English.
+    // 3. Urgency Scoring: Assigns a 1-5 score based on sentiment/danger.
+    // 4. Semantic Theming: Groups "no water" and "pipe broken" into "Water Scarcity".
+    // ==========================================
     const analysis = await analyzeSubmission(text, language);
 
-    // 2. Save to DB
+    // 2. Save structured output to DB
     const newSubmission = new Submission({
       citizenId: citizenId || `cit-${Date.now()}`, // fallback to random if not provided
       category,

@@ -109,6 +109,9 @@ const AdminDashboard = () => {
     document.body.removeChild(link);
   };
 
+  // ==========================================
+  // 📊 DATA PROCESSING & SEMANTIC CLUSTERING
+  // ==========================================
   // Process data for charts & clustering
   const themeCounts = submissions.reduce((acc, sub) => {
     const theme = sub.aiExtractedTheme || 'Other';
@@ -118,6 +121,8 @@ const AdminDashboard = () => {
   const chartData = Object.keys(themeCounts).map(key => ({ name: key, count: themeCounts[key] })).sort((a, b) => b.count - a.count).slice(0, 5);
 
   // Group similar submissions
+  // Hackathon Feature: Instead of showing 10 identical complaints, we semantically group them
+  // based on the AI-extracted theme and Ward number.
   const clusteredFeed = Object.values(submissions.reduce((acc, sub) => {
     const key = `${sub.wardNumber}-${sub.aiExtractedTheme}`;
     if (!acc[key]) acc[key] = { ...sub, count: 0 };
@@ -141,6 +146,10 @@ const AdminDashboard = () => {
     trendData.push({ date: dateStr, volume: subsOnDay.length, urgency: parseFloat(avgUrg.toFixed(1)) });
   }
 
+  // ==========================================
+  // 💰 BUDGET SIMULATOR LOGIC
+  // Dynamically subtracts project costs from the user's input budget
+  // ==========================================
   let remainingBudget = budget;
 
   return (
@@ -187,7 +196,11 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* AI Executive Digest */}
+        {/* ==========================================
+            AI EXECUTIVE DIGEST
+            Hackathon Feature: Generates a natural language summary
+            of the last 7 days of complaints vs the previous 30 days.
+            ========================================== */}
         <div className="glass-panel p-6 rounded-3xl mb-8 flex items-start gap-4 border-l-4 border-l-indigo-500 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-5">
             <Sparkles size={100} />
