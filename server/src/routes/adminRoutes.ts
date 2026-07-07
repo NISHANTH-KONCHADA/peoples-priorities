@@ -49,11 +49,13 @@ adminRoutes.get('/ranking', authenticate, async (req, res) => {
     const rankedProjects = [];
 
     // Pre-calculate top demand per ward to detect clashes
-    const wardDemand = {};
+    const wardDemand: any = {};
     submissions.forEach(sub => {
-      if (!wardDemand[sub.wardNumber]) wardDemand[sub.wardNumber] = {};
-      if (!wardDemand[sub.wardNumber][sub.category]) wardDemand[sub.wardNumber][sub.category] = 0;
-      wardDemand[sub.wardNumber][sub.category]++;
+      if (sub.wardNumber === undefined || sub.category === undefined) return;
+      const wNum = String(sub.wardNumber);
+      if (!wardDemand[wNum]) wardDemand[wNum] = {};
+      if (!wardDemand[wNum][sub.category]) wardDemand[wNum][sub.category] = 0;
+      wardDemand[wNum][sub.category]++;
     });
 
     for (const project of projects) {
@@ -90,10 +92,11 @@ adminRoutes.get('/ranking', authenticate, async (req, res) => {
 
       // Detect Clash
       let clashDetected = null;
-      if (wardDemand[project.wardNumber]) {
+      const pWNum = String(project.wardNumber);
+      if (wardDemand[pWNum]) {
         let topCategory = null;
         let maxCount = 0;
-        for (const [cat, count] of Object.entries(wardDemand[project.wardNumber])) {
+        for (const [cat, count] of Object.entries(wardDemand[pWNum])) {
           if ((count as number) > maxCount) {
             maxCount = count as number;
             topCategory = cat;

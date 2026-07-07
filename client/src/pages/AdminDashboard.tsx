@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGri
 import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Activity, AlertTriangle, MessageSquare, Map as MapIcon, TrendingUp, Download, Sparkles, AlertCircle, X, ChevronRight } from 'lucide-react';
+import { Activity, AlertTriangle, MessageSquare, Map as MapIcon, TrendingUp, Download, Sparkles, AlertCircle, X } from 'lucide-react';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
