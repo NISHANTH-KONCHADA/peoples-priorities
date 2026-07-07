@@ -20,7 +20,7 @@
 ## ✨ Standout Features
 
 ### 🧠 Semantic NLP & Multi-Lingual Support
-- Citizens can submit complaints in **English, Hindi, and Tamil**.
+- Citizens can submit complaints in **English, Hindi, Tamil, Telugu, and Malayalam**.
 - The backend automatically translates submissions, corrects grammar, and extracts **core themes** and **urgency scores (1-5)** using Llama 3 via the Groq API.
 - **Smart Clustering:** The Live Feed doesn't look like a spam wall. The AI groups semantically identical complaints in the same ward, displaying them with a clean `+39 similar reports` badge.
 

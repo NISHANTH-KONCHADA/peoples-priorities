@@ -8,7 +8,7 @@ const CATEGORIES = [
 ];
 
 const CitizenPortal = () => {
-  const [lang, setLang] = useState<'en' | 'hi' | 'ta'>('en');
+  const [lang, setLang] = useState<'en' | 'hi' | 'ta' | 'te' | 'ml'>('en');
   const [category, setCategory] = useState('');
   const [text, setText] = useState('');
   const [ward, setWard] = useState('');
@@ -18,14 +18,16 @@ const CitizenPortal = () => {
   const texts = {
     en: { title: "Voice Your Priority", subtitle: "Help shape the development of your constituency.", placeholder: "Describe the issue or suggestion..." },
     hi: { title: "अपनी प्राथमिकता बताएं", subtitle: "अपने निर्वाचन क्षेत्र के विकास में मदद करें।", placeholder: "समस्या या सुझाव का वर्णन करें..." },
-    ta: { title: "உங்கள் முன்னுரிமையை ஒலிக்கவும்", subtitle: "உங்கள் தொகுதியின் வளர்ச்சியை வடிவமைக்க உதவுங்கள்.", placeholder: "பிரச்சனை அல்லது ஆலோசனையை விவரிக்கவும்..." }
+    ta: { title: "உங்கள் முன்னுரிமையை ஒலிக்கவும்", subtitle: "உங்கள் தொகுதியின் வளர்ச்சியை வடிவமைக்க உதவுங்கள்.", placeholder: "பிரச்சனை அல்லது ஆலோசனையை விவரிக்கவும்..." },
+    te: { title: "మీ ప్రాధాన్యతను వినిపించండి", subtitle: "మీ నియోజకవర్గ అభివృద్ధికి సహాయపడండి.", placeholder: "సమస్య లేదా సూచనను వివరించండి..." },
+    ml: { title: "നിങ്ങളുടെ മുൻഗണന അറിയിക്കുക", subtitle: "നിങ്ങളുടെ നിയോജകമണ്ഡലത്തിന്റെ വികസനത്തിന് സഹായിക്കുക.", placeholder: "പ്രശ്നമോ നിർദ്ദേശമോ വിവരിക്കുക..." }
   };
 
   const handleSpeech = () => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recognition = new SpeechRecognition();
-      recognition.lang = lang === 'hi' ? 'hi-IN' : lang === 'ta' ? 'ta-IN' : 'en-IN';
+      recognition.lang = lang === 'hi' ? 'hi-IN' : lang === 'ta' ? 'ta-IN' : lang === 'te' ? 'te-IN' : lang === 'ml' ? 'ml-IN' : 'en-IN';
       recognition.start();
       recognition.onresult = (event: any) => {
         setText(text + ' ' + event.results[0][0].transcript);
@@ -47,7 +49,7 @@ const CitizenPortal = () => {
         body: JSON.stringify({
           category,
           text,
-          language: lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : 'Tamil',
+          language: lang === 'en' ? 'English' : lang === 'hi' ? 'Hindi' : lang === 'ta' ? 'Tamil' : lang === 'te' ? 'Telugu' : 'Malayalam',
           wardNumber: ward ? parseInt(ward) : undefined
         })
       });
@@ -81,6 +83,8 @@ const CitizenPortal = () => {
             <button onClick={() => setLang('en')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='en' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>EN</button>
             <button onClick={() => setLang('hi')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='hi' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>HI</button>
             <button onClick={() => setLang('ta')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='ta' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>TA</button>
+            <button onClick={() => setLang('te')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='te' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>TE</button>
+            <button onClick={() => setLang('ml')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='ml' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>ML</button>
           </div>
           <h1 className="text-2xl font-extrabold mb-1 text-slate-800 tracking-tight">{texts[lang].title}</h1>
           <p className="text-slate-600 text-sm font-medium">{texts[lang].subtitle}</p>
