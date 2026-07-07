@@ -42,7 +42,13 @@ const AdminLogin = () => {
             <Lock className="w-8 h-8 text-indigo-600" />
           </div>
         </div>
-        <h2 className="text-2xl font-extrabold text-center text-slate-800 mb-8 tracking-tight">Admin Portal</h2>
+        <h2 className="text-2xl font-extrabold text-center text-slate-800 mb-6 tracking-tight">Admin Portal</h2>
+
+        <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-6 text-center text-sm text-indigo-800 shadow-sm">
+          <p className="font-bold mb-1">Hackathon Demo Credentials</p>
+          <p>Username: <span className="font-mono bg-white px-2 py-0.5 rounded border border-indigo-200">admin</span></p>
+          <p className="mt-1">Password: <span className="font-mono bg-white px-2 py-0.5 rounded border border-indigo-200">admin123</span></p>
+        </div>
         
         {error && (
           <div className="bg-red-500/10 border border-red-500/20 text-red-700 p-3 rounded-xl mb-6 text-sm text-center backdrop-blur-sm animate-pulse font-medium">

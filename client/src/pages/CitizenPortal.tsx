@@ -78,16 +78,20 @@ const CitizenPortal = () => {
   return (
     <div className="min-h-[calc(100vh-4rem)] py-10 px-4 sm:px-6 flex items-center justify-center">
       <div className="w-full max-w-lg mx-auto glass-panel rounded-3xl overflow-hidden">
-        <div className="bg-slate-800/5 border-b border-white/40 px-6 py-6 relative backdrop-blur-md">
-          <div className="absolute top-4 right-4 flex space-x-1.5 bg-white/40 p-1 rounded-lg backdrop-blur-sm border border-white/60">
-            <button onClick={() => setLang('en')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='en' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>EN</button>
-            <button onClick={() => setLang('hi')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='hi' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>HI</button>
-            <button onClick={() => setLang('ta')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='ta' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>TA</button>
-            <button onClick={() => setLang('te')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='te' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>TE</button>
-            <button onClick={() => setLang('ml')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='ml' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>ML</button>
+        <div className="bg-slate-800/5 border-b border-white/40 px-6 py-6 backdrop-blur-md">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-extrabold mb-1 text-slate-800 tracking-tight">{texts[lang].title}</h1>
+              <p className="text-slate-600 text-sm font-medium">{texts[lang].subtitle}</p>
+            </div>
+            <div className="flex space-x-1.5 bg-white/40 p-1 rounded-lg backdrop-blur-sm border border-white/60 shrink-0 flex-wrap gap-y-1">
+              <button onClick={() => setLang('en')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='en' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>EN</button>
+              <button onClick={() => setLang('hi')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='hi' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>HI</button>
+              <button onClick={() => setLang('ta')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='ta' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>TA</button>
+              <button onClick={() => setLang('te')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='te' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>TE</button>
+              <button onClick={() => setLang('ml')} className={`px-2.5 py-1 text-xs font-bold rounded-md transition ${lang==='ml' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>ML</button>
+            </div>
           </div>
-          <h1 className="text-2xl font-extrabold mb-1 text-slate-800 tracking-tight">{texts[lang].title}</h1>
-          <p className="text-slate-600 text-sm font-medium">{texts[lang].subtitle}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
