@@ -17,6 +17,7 @@ export interface ISubmission extends Document {
   status: 'Pending' | 'Actioned' | 'Under Review' | 'Deferred';
   aiRankingScore?: number; // Composite score calculated on the fly or stored
   aiJustification?: string;
+  timestamp?: Date;
 }
 
 const SubmissionSchema: Schema = new Schema({
@@ -39,7 +40,8 @@ const SubmissionSchema: Schema = new Schema({
     default: 'Pending' 
   },
   aiRankingScore: { type: Number },
-  aiJustification: { type: String }
+  aiJustification: { type: String },
+  timestamp: { type: Date, default: Date.now }
 }, { timestamps: true });
 
 export const Submission = mongoose.model<ISubmission>('Submission', SubmissionSchema);
